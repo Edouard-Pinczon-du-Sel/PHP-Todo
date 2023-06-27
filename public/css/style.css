@@ -25,6 +25,13 @@ html, body {
     background-color: var(--barckground-light);
 }
 
+h1, p {
+    margin: 0;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
 /* container */
 
 .container {
@@ -33,6 +40,25 @@ html, body {
     display: flex;
     flex-flow: column;
     color: var(--text-color)
+}
+
+/* button */
+
+.btn {
+    background-color: white;
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    border: 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+
+.btn {
+    background-color: var(--primary);
+    color: var(--text-color-light);
 }
 
 /* header */
@@ -83,4 +109,18 @@ footer {
 
 .todo-container h1 {
     text-align: center;
+}
+
+.todo-form {
+    display: flex;
+    align-items: center;
+    flex-flow: nowrap;
+}
+
+.todo-form input{
+    flex: 1;
+    margin-right: 0.5rem;
+    border: var(--border);
+    border-radius: 3px;
+    padding: 10px 15px;
 }
