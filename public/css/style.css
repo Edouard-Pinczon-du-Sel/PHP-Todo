@@ -33,6 +33,11 @@ h1, p {
 h1 {
     margin-bottom: 1rem;
 }
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
 /* container */
 
 .container {
@@ -63,11 +68,22 @@ h1 {
     cursor: pointer;
     border-radius: 3px;
     margin: 0 5px;
+    box-shadow: var(--box-shadow);
 }
 
-.btn {
+.btn-primary {
     background-color: var(--primary);
     color: var(--text-color-light);
+}
+
+.btn-danger {
+    color: var(--text-color-light);
+    background-color: var(--danger);
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 1.4rem;
 }
 
 /* header */
@@ -132,4 +148,21 @@ footer {
     border: var(--border);
     border-radius: 3px;
     padding: 10px 15px;
+}
+
+.todo-item {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 1.5rem;
+}
+
+.todo-item:nth-child(odd) {
+    background-color: var(--barckground-light);
+}
+
+.todo-name {
+    flex: 1;
+    margin-right: 0.5rem;
 }
