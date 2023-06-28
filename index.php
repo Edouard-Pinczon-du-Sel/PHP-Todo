@@ -1,19 +1,46 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     const ERROR_REQUIRED = 'Veuillez renseigner une toto';
     const ERROR_TOO_SHORT = 'Veuillez entrer au moins 5 carctères';
-    $error = '';
 
-    // on verrifie qu'on est en méthode post
-    if ($_SERVER['REQUEST_METHOD']=== 'POST') {
+    $filename = __DIR__ . "/data/todos.json";
+    $error = '';
+    $todos = [];
+
+    //! PREMIER CHEMIN JSON VERS PHP
+    // on vérifie que le fichier existe
+    if(file_exists($filename)) {
+        // on récupère le json dans le fichier
+        $data = file_get_contents($filename);
+        // on le transforme en tableau associatif avec true pour le préciser (sinon objet par défaut)
+        $todos = json_decode($data, true) ?? []; // sinon on met un tab vide
+    }
+
+    // on verifie qu'on est en méthode post
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // L'utilisateur à soumis un form
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // si rien est entré on assigne '' à $todo
+        // Si rien est entré on assigne '' à $todo
         $todo = $_POST['todo'] ?? '';
 
         if (!$todo) {
             $error = ERROR_REQUIRED;
         } elseif(strlen($todo) < 5) {
             $error = ERROR_TOO_SHORT;
+        }
+
+        // On vérifie qu'il n'y a aucun erreur
+        if (!$error) {
+            // On ajoute une nouvelle todo $todo à l'intérieur du tableau associatif $todos qui contient toutes les todos
+            $todos = [...$todos, [
+                'name' => $todo,
+                'done' => false,
+                'id' => time()
+            ]];
+            //! CHEMIN INVERSE PHP VERS JSON
+            file_put_contents($filename, json_encode($todos));
         }
     }
 ?>
@@ -23,11 +50,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-    require_once 'includes/head.php'?>
+    <?php require_once 'includes/head.php'?>
     <title>Todo</title>
 </head>
 <body>
