@@ -7,9 +7,10 @@
 
     $filename = __DIR__ . "/data/todos.json";
     $error = '';
+    $todo = '';
     $todos = [];
 
-    //! PREMIER CHEMIN JSON VERS PHP
+    //! PREMIER CHEMIN JSON VERS PHP // On entre décode pour pouvoir l'utiliser en tableau associatif php
     // on vérifie que le fichier existe
     if(file_exists($filename)) {
         // on récupère le json dans le fichier
@@ -25,6 +26,7 @@
         // Si rien est entré on assigne '' à $todo
         $todo = $_POST['todo'] ?? '';
 
+        // gestion d'erreurs
         if (!$todo) {
             $error = ERROR_REQUIRED;
         } elseif(strlen($todo) < 5) {
@@ -39,7 +41,7 @@
                 'done' => false,
                 'id' => time()
             ]];
-            //! CHEMIN INVERSE PHP VERS JSON
+            //! CHEMIN INVERSE PHP VERS JSON // On sauvegarde
             file_put_contents($filename, json_encode($todos));
         }
     }
@@ -59,7 +61,11 @@
             <div class="todo-container">
                 <h1>Ma Todo</h1>
                 <form action="/" method="POST" class="todo-form">
-                    <input name="todo" type=text>
+                    <input 
+                        <?php if($error): ?>
+                            value="<?=$todo ?>" 
+                        <?php endif; ?>
+                        name="todo" type=text>
                     <button class="btn btn-primary">Ajouter</button>
                 </form>
                 <?php // On affiche l'erreur?>
@@ -69,12 +75,12 @@
                 <ul class="todo-list">
                     <?php // Pour chaque todo du tableau $todos
                         foreach($todos as $t):  ?>
-                        <li class="todo-item">
-                            <span class="todo-name"><?= $t['name'] ?></span>
-                            <button class="btn btn-primary btn-small">Valider</button>
+                        <li class="todo-item <?= $t['done'] ? 'low-opacity' : ''?>">
+                            <span class="todo-name <?= $t['done'] ? 'todo-done' : ''?>"><?= $t['name'] ?></span>
+                            <a href="/edit-todo.php?id=<?=$t['id']?>">
+                                <button class="btn btn-primary btn-small"><?= $t['done'] ? 'Annuler' : 'Valider' ?></button>
+                            </a>
                             <button class="btn btn-danger btn-small">Supprimer</button>
-
-
                         </li>
                     <?php endforeach; ?>
 
