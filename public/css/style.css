@@ -81,6 +81,11 @@ ul {
     background-color: var(--danger);
 }
 
+.btn-archive {
+    color: var(--text-color-light);
+    background-color: orange;
+}
+
 .btn-small {
     padding: 5px 10px;
     font-size: 1.4rem;

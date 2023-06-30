@@ -43,6 +43,9 @@
             ]];
             //! CHEMIN INVERSE PHP VERS JSON // On sauvegarde
             file_put_contents($filename, json_encode($todos));
+            // Empêche un nouvel envoi du form
+            header('Location: /');
+
         }
     }
 ?>
@@ -80,7 +83,11 @@
                             <a href="/edit-todo.php?id=<?=$t['id']?>">
                                 <button class="btn btn-primary btn-small"><?= $t['done'] ? 'Annuler' : 'Valider' ?></button>
                             </a>
-                            <button class="btn btn-danger btn-small">Supprimer</button>
+                            <a href="/remove-todo.php?id=<?=$t['id']?>">
+                                <button class="btn btn-small <?= $t['done'] === true ? 'btn-archive' : 'btn-danger' ?>">
+                                    <?= $t['done'] === true ? 'Archiver' : 'Supprimer' ?>
+                                </button>
+                            </a>
                         </li>
                     <?php endforeach; ?>
 

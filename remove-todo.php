@@ -9,8 +9,8 @@
         $todos = json_decode($data, true) ?? []; // on récupère notre tab associatif
         if (count($todos)) {
             $todoIndex = (int)array_search($id, array_column($todos, 'id'));
-            // on stock l'inverse de la donnée dans done
-            $todos[$todoIndex]['done'] = !$todos[$todoIndex]['done'];
+            // on supprime l'élément à partir de l'id
+            array_splice($todos, $todoIndex, 1);
             file_put_contents($filename, json_encode($todos));
         }
 
